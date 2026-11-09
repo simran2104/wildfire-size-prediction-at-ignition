@@ -43,6 +43,9 @@ The Gradient Boosting classifier achieved the best validation PR-AUC among the s
 | ROC-AUC | 0.8929 |
 | PR-AUC | 0.5220 |
 
+<img width="550" height="400" alt="image" src="https://github.com/user-attachments/assets/4d3e866f-98be-4a0b-a699-6d18bc4a76c1" />
+
+
 **Key Finding:** Despite achieving high overall accuracy, identifying rare large wildfires remained challenging. The model detected approximately half of the actual large fires, highlighting the difficulty of learning from highly imbalanced environmental datasets.
 
 ## 🗓️ Chronological Data Validation
