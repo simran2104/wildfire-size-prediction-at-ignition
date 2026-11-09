@@ -1,23 +1,68 @@
-# Wildfire Potential Prediction at Ignition
+# 🔥 Wildfire Size Prediction at Ignition - New Zealand
 
-## Project Overview
+**Applying Machine Learning to identify potentially large wildfires using historical environmental, weather, geographical and temporal data.**
 
-Wildfires can begin under similar conditions but develop very differently, from small, contained fires to events that burn extensive areas. This project investigates whether information available around the time of ignition can help identify the potential for an extreme wildfire in New Zealand.
+## 🌲 About the Project
 
-The aim is to explore historical wildfire records and the relationships between fire outcomes, weather, fuel characteristics, season, and location. The longer-term objective is to establish a data-driven basis for assessing extreme-fire potential early, when that information could be most useful for situational awareness and response planning.
+This project investigates whether machine learning can classify the potential size of wildfires in New Zealand using information available at or around the time of fire detection.
 
-## Exploratory Data Analysis (EDA)
+Using the New Zealand Wildfire Occurrence Database (WOD), the project focuses on distinguishing between:
 
-The current notebook focuses on understanding the dataset and identifying patterns that may inform later predictive modelling:
+- 🟢 **Small Fires:** Final burned area below 1 hectare.
+- 🔴 **Large Fires:** Final burned area of 1 hectare or more.
 
-- **Fire size and extreme events:** examines the distribution of burned area, including its long right tail, where a small number of fires account for very large burned areas. Log-transformed area is used in visualisations to make this skew easier to inspect.
-- **Weather conditions:** explores relationships between fire size and variables such as the Fire Weather Index (FWI) and relative humidity (RH). These comparisons help assess whether weather indicators may be informative, while recognising that no single variable explains fire growth on its own.
-- **Seasonality and geography:** analyses when and where fires are recorded, including monthly and spatial patterns.
-- **Fuel characteristics:** examines the distribution of recorded fuel types as potential context for fire behaviour.
-- **Data quality and historical coverage:** investigates missing values and how the availability of features changes over time, important considerations when selecting predictors and avoiding misleading comparisons across years.
+A key challenge is the significant class imbalance, with large wildfires representing only a small proportion of historical records.
 
-## Current Findings and Status
+## 🚀 What I Worked On
 
-The EDA highlights that wildfire burned area is highly skewed, with many small fires and a relatively small number of very large events. It also explores potential associations between fire size and weather, fuel, time, and location. These patterns help guide feature selection and the next stages of the project.
+- **Exploratory Data Analysis:** Investigated wildfire distributions, geographical patterns, burned-area trends, missing values and changes in feature availability over time.
+- **Feature Engineering:** Implemented cyclical encoding for month and hour, One-Hot Encoding for categorical variables and Standard Scaling for numerical features.
+- **Data Preprocessing:** Built Scikit-learn pipelines using median and most-frequent-value imputation.
+- **Feature Selection:** Used Random Forest feature importance to identify relevant predictors.
+- **Model Development:** Implemented and compared six classification algorithms:
+  - Logistic Regression
+  - Random Forest
+  - Extra Trees
+  - Gradient Boosting
+  - Hist Gradient Boosting
+  - XGBoost
+- **Class Imbalance Handling:** Experimented with class weighting and SMOTE to improve the detection of large wildfires.
+- **Hyperparameter Tuning:** Applied RandomizedSearchCV with 3-fold cross-validation to explore Gradient Boosting configurations.
+- **Model Evaluation:** Used PR-AUC, ROC-AUC, Precision, Recall, F1-score and confusion matrices to assess model performance.
 
-**Current stage: exploratory analysis.** The notebook and visualisations document dataset characteristics and candidate relationships. They should not be interpreted as proof of causation or as evidence of a validated operational prediction model. Model development, evaluation, and the reliability of predictions at ignition need to be assessed separately.
+## 📊 Model Performance
+
+The Gradient Boosting classifier achieved the best validation PR-AUC among the six initial models.
+
+| Evaluation Metric | Test Score |
+|---|---:|
+| Accuracy | 96.97% |
+| Precision (Large Fires) | 67.58% |
+| Recall (Large Fires) | 49.95% |
+| F1-Score | 57.44% |
+| ROC-AUC | 0.8929 |
+| PR-AUC | 0.5220 |
+
+**Key Finding:** Despite achieving high overall accuracy, identifying rare large wildfires remained challenging. The model detected approximately half of the actual large fires, highlighting the difficulty of learning from highly imbalanced environmental datasets.
+
+## 🗓️ Chronological Data Validation
+
+To evaluate how well the models generalise to future wildfire records, the dataset was split chronologically rather than randomly.
+
+| Dataset | Years |
+|---|---|
+| Training | 1998-2017 |
+| Validation | 2018-2019 |
+| Testing | 2020-2025 |
+
+## 🛠️ Technologies & Libraries
+
+`Python` `Jupyter Notebook` `Pandas` `NumPy` `Scikit-learn` `XGBoost` `Imbalanced-learn` `Matplotlib` `Seaborn`
+
+## 🎯 Key Learning Outcomes
+
+- Working with real-world environmental datasets containing missing values and highly imbalanced classes.
+- Building end-to-end machine learning preprocessing and classification pipelines.
+- Comparing ensemble learning algorithms and evaluating their performance.
+- Understanding the importance of temporal validation and minority-class evaluation.
+- Investigating the limitations of machine learning when predicting rare events.
